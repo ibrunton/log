@@ -6,7 +6,7 @@ use Text::Wrap;
 
 use Log;
 
-my $VERSION = '2.2.8';
+my $VERSION = '2.2.9';
 
 if (! $ARGV[0]) { pod2usage (-exitval => 1, -verbose => 1); }
 
@@ -98,7 +98,7 @@ if ($output =~ m| -s([/#]).+?\1.*?\1|) {
 
 # add time...
 if ($log->opt ('n')) {
-    $output .= ' to ' . $log->time;
+    $output .= length ($output) > 0 ? ' to ' . $log->time : 'to ' . $log->time;
     if ($output && $comment) {
 	$output .= ' ';
     }
@@ -222,7 +222,7 @@ log - command-line log/journal processing
 
 =head1 VERSION
 
-2.2.8
+2.2.9
 
 =head1 SYNOPSIS
 

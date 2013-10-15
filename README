@@ -2,7 +2,7 @@ NAME
     log - command-line log/journal processing
 
 VERSION
-    2.2.8
+    2.2.9
 
 SYNOPSIS
      log [OPTIONS] [YYYY/MM/DD] [TIME] [TEXT]
