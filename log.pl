@@ -44,21 +44,21 @@ if ($input eq '-') {
     chomp( $input );
 }
 
-# split input on -c or comment_char...
-$input =~ s/(?<=\W)-c(\s)/ $log->comment_char.$1/eo;
-
 my $cc = $log->comment_char;
-if ($input =~ m/$cc/) {
-    ($output, $comment) = split (/$cc/, $input);
-    $comment = $cc . $comment;
-}
-else { $output = $input; }
-
 if ($log->opt ('c')) {
-    $output = '';
     $log->set_opt ('t');
-    $log->indent_char ($log->{comment_char} . $log->{indent_char});
-    $comment = $log->indent_char . $input;
+    $comment = $cc . $log->indent_char . $input;
+    $output = '';
+}
+else {
+    # split input on -c or comment_char...
+    $input =~ s/(?<=\W)-c(\s)/ $log->comment_char.$1/eo;
+
+    if ($input =~ m/$cc/) {
+    	($output, $comment) = split (/$cc/, $input);
+    	$comment = $cc . $comment;
+    }
+    else { $output = $input; }
 }
 
 if ($log->opt ('a')) {
