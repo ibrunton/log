@@ -55,9 +55,14 @@ if ($input =~ m/$cc/) {
 else { $output = $input; }
 
 if ($log->opt ('c')) {
-    $comment = $log->indent_char . $input;
     $output = '';
     $log->set_opt ('t');
+    $log->indent_char ($log->{comment_char} . $log->{indent_char});
+    $comment = $log->indent_char . $input;
+}
+
+if ($log->opt ('a')) {
+    $log->{end_of_line} = '';
 }
 
 # expand snippets...
@@ -98,12 +103,14 @@ if ($output =~ m| -s([/#]).+?\1.*?\1|) {
 
 # add time...
 if ($log->opt ('n')) {
+    $log->set_opt ('t');
     $output .= length ($output) > 0 ? ' to ' . $log->time : 'to ' . $log->time;
     if ($output && $comment) {
 	$output .= ' ';
     }
 }
 if ($log->opt ('i')) {
+    $log->set_opt ('t');
     $output = "\t" . $output;
 }
 

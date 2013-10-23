@@ -108,21 +108,8 @@ sub getopts {
 sub process_options {
     my $self = shift;
 	
-    if ($self->opt ('a')) {
-	$self->{end_of_line} = '';
-    }
-    if ($self->opt ('c')) {
-	$self->set_opt ('t');
-	$self->indent_char ($self->{comment_char} . $self->{indent_char}) ;
-    }
-    if ($self->opt ('i')) {
-	$self->set_opt ('t');
-    }
     if ($self->opt ('m')) {
 	$self->{show_markup} = 0;
-    }
-    if ($self->opt ('n')) {
-	$self->set_opt ('t');
     }
 
     foreach (keys %{$self->{extensions}}) {
