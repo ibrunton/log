@@ -63,6 +63,7 @@ else {
 
 if ($log->opt ('a')) {
     $log->{end_of_line} = '';
+    #$log->set_state ('no-newline');
 }
 
 # expand snippets...
@@ -104,7 +105,7 @@ if ($output =~ m| -s([/#]).+?\1.*?\1|) {
 # add time...
 if ($log->opt ('n')) {
     $log->set_opt ('t');
-    $output .= length ($output) > 0 ? ' to ' . $log->time : 'to ' . $log->time;
+    $output .= ' to ' . $log->time;
     if ($output && $comment) {
 	$output .= ' ';
     }
