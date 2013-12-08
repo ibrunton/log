@@ -248,7 +248,7 @@ the current instance. By default the file is F<.state> within the
 directory specified by log_dir, unless another filename is passed.
 
 =cut
-sub parse_state {
+sub state {
     my $self = shift;
     $self->{state_file} // $self->{log_dir} . '.state';
     if (-s $self->{state_file}) {
@@ -257,13 +257,16 @@ sub parse_state {
 	    push (@{$self->{state}}, $_);
 	}
 	close (FILE);
+	if (! $self->opt ('u')) { # clear state file
+	}
     }
+    else {}
     return $self;
 }
 
-sub state {
+sub set_state {
     my $self = shift;
-    return shift @{$self->{state}};
+    return $self;
 }
 
 =head2 parse_datetime [STRING]
