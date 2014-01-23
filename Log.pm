@@ -508,7 +508,7 @@ sub markup {
     $$string =~ s/^(\#.+)$/$self->comment_markup($1)/e;
 
     # underline:
-    $$string =~ s|_([^,;]+)_|$self->underline($1)|eg;
+    $$string =~ s|_([^;]+)_|$self->underline($1)|eg;
 
     return $self;
 }
