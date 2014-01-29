@@ -280,7 +280,7 @@ sub parse_datetime {
     my $string = shift;
 	
     # date:
-    if ($$string =~ m|^((\d{4}/)?(\d{2}/)?\d{2})\b|o) {
+    if ($$string =~ m|^((\d{4}/)?([01][0-9]/)?[0123][0-9])\b|o) {
 	$self->{date} = $1;
 	$$string =~ s/$1 *//o;
 	$self->{has_date} = 1;
