@@ -2,12 +2,10 @@ NAME
     log - command-line log/journal processing
 
 VERSION
-    2.2.9
+    2.2.10
 
 SYNOPSIS
-     log [OPTIONS] [YYYY/MM/DD] [TIME] [TEXT]
-     log 10/03 1201 lunch
-     log -n :std_nap_string -c very refreshing
+    log [OPTIONS] [YYYY/MM/DD] [TIME] [TEXT]
 
 DESCRIPTION
     This program facillitates keeping flat-file journals via the command
@@ -204,6 +202,12 @@ CONFIGURATION OPTIONS
                     requested file that does not exist, before opening it in
                     the editor. Default: false.
 
+            extension_hook
+                    (String) A command to run when a log file is created
+                    with an extension. %d will be replaced with the date. %e
+                    will be replaced with the extension; %E will be replaced
+                    with the extension transposed to upper case.
+
     [tags] section
             Here the user may define single-character tags to be used (1) to
             facilitate searching log files with e.g. grep, and (2) to enable
@@ -225,7 +229,7 @@ REPORTING BUGS
     Report Log bugs to iandbrunton at gmail.com
 
 COPYRIGHT
-    Copyright 2011-2012 Ian Brunton.
+    Copyright 2011-2014 Ian Brunton.
 
     This file is part of Log.
 
