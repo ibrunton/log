@@ -6,7 +6,7 @@ use Text::Wrap;
 
 use Log;
 
-my $VERSION = '2.2.9';
+my $VERSION = '2.2.10';
 
 if (! $ARGV[0]) { pod2usage (-exitval => 1, -verbose => 1); }
 
@@ -179,8 +179,13 @@ if ($log->opt('b')) {
 my $date = $log->date;
 
 if ($log->{extension} ne '') {
-    if ($log->is_new) {
-	system (join (" ", $0, "-cw", $silent, $log->date, uc ($log->{extension}), "file created"));
+    if ($log->is_new && $log->{extension_hook}) {
+	my $cmd = $log->{extension_hook};
+	my $x = $log->{extension};
+	$x =~ s/\.//;
+	$cmd =~ s/%e/$x/x;
+	$cmd =~ s/%d/$date/x;
+	system ($cmd);
     }
 }
 
@@ -230,13 +235,11 @@ log - command-line log/journal processing
 
 =head1 VERSION
 
-2.2.9
+2.2.10
 
 =head1 SYNOPSIS
 
- log [OPTIONS] [YYYY/MM/DD] [TIME] [TEXT]
- log 10/03 1201 lunch
- log -n :std_nap_string -c very refreshing
+log [OPTIONS] [YYYY/MM/DD] [TIME] [TEXT]
 
 =head1 DESCRIPTION
 
@@ -483,6 +486,10 @@ Terminal escape sequence to turn off underlining.
 (Boolean) Allows the editlog.pl script to create a requested file that does not exist,
 before opening it in the editor.  Default: false.
 
+=item B<extension_hook>
+
+(String) A command to run when a log file is created with an extension.  F<%d> will be replaced with the date.  F<%e> will be replaced with the extension; F<%E> will be replaced with the extension transposed to upper case.
+
 =back
 
 =item B<[tags] section>
@@ -511,7 +518,7 @@ Report Log bugs to iandbrunton at gmail.com
 
 =head1 COPYRIGHT
 
-Copyright 2011-2012 Ian Brunton.
+Copyright 2011-2014 Ian Brunton.
 
 This file is part of Log.
 

@@ -34,9 +34,14 @@ if (-e $file) {
     	open (FILE, ">>", $file) or die ("Cannot open file `$file': $!");
     	print FILE $log->date_string, "\n\n";
     	close (FILE);
-    	if ($log->{extension} ne '') {
-	    system (join (" ", "llg", "-cw", $log->date,
-	    	    uc ($log->{extension}), "file created"));
+    	if ($log->{extension} ne '' && $log->{extension_hook}) {
+	    my $date = $log->date;
+	    my $cmd = $log->{extension_hook};
+	    my $x = $log->{extension};
+	    $x =~ s/\.//;
+	    $cmd =~ s/%e/$x/x;
+	    $cmd =~ s/%d/$date/x;
+	    system ($cmd);
     	}
 
     	$action .= " $file";

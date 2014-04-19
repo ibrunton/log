@@ -219,6 +219,10 @@ sub parse_rc {
 	    if ($keyfile->has_key ('log', 'editlog_create_new')) {
 	    	$self->{editlog_create_new} = $keyfile->get_boolean ('log', 'editlog_create_new');
 	    }
+
+	    if ($keyfile->has_key ('log', 'extension_hook')) {
+		$self->{extension_hook} = $keyfile->get_string ('log', 'extension_hook');
+	    }
 	}
 
 	if ($keyfile->has_group ('markup')) {
