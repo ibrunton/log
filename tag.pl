@@ -8,7 +8,7 @@ use Modern::Perl;
 use Pod::Usage;
 use Log;
 
-my $VERSION = '1.0.1';
+my $VERSION = '1.0.2';
 
 #if (! $ARGV[0]) { pod2usage (-exitval => 1, -verbose => 1); }
 
@@ -17,7 +17,7 @@ my $log = Log->new ();
 $log->parse_rc;
 
 my $input = join (' ', @ARGV);
-$log->getopts ('hl', \$input);
+$log->getopts ('hly', \$input);
 
 if ($log->opt ('h')) {
     pod2usage (-exitstatus => 0, -verbose => 2);
@@ -30,20 +30,24 @@ if ($input =~ /(\bl\b)/) {
 }
 
 $log->parse_datetime (\$input);
-my $tag_file = $log->log_dir . 'tags';
+my %files = ( "total" => $log->log_dir . 'tags',
+    	      "year"  => $log->log_dir . $log->year . '/tags',
+);
 
 my $used_tags;
-if (-e $tag_file) {
-    open (TAGFILE, "<", $tag_file) or die ("Cannot open tag file: $!");
-    my @tags = <TAGFILE>;
-    close (TAGFILE);
+foreach my $file (keys %files) {
+    if (-e $files{$file}) {
+    	open (TAGFILE, "<", $files{$file}) or die ("Cannot open tag file: $!");
+    	my @tags = <TAGFILE>;
+    	close (TAGFILE);
 
-    foreach (@tags) {
-	$_ =~ s/\n//;
-	if ($_ =~ m/^(\#[\w-]+)\t(\d+)$/) {
-	    $used_tags->{$1} = $2;
-	}
-	else { next; }
+    	foreach (@tags) {
+	    $_ =~ s/\n//;
+	    if ($_ =~ m/^(\#[\w-]+)\t(\d+)$/) {
+	    	$used_tags->{$file}->{$1} = $2;
+	    }
+	    else { next; }
+    	}
     }
 }
 
@@ -70,15 +74,17 @@ if ($input) {
     }
 
     if ($#newtags >= 0) {	# still new tags left after removing duplicates
-    	foreach (@newtags) {
-	    $used_tags->{$_} += 1;
-    	}
+	foreach my $f (keys %files) {
+    	    foreach my $t (@newtags) {
+	    	$used_tags->{$f}->{$t} += 1;
+    	    }
 
-    	open (TAGFILE, ">", $tag_file) or die ("Cannot open tag file: $!");
-    	foreach (sort keys %{$used_tags}) {
-	    print TAGFILE $_, "\t", $used_tags->{$_}, "\n";
+    	    open (TAGFILE, ">", $files{$f}) or die ("Cannot open tag file: $!");
+    	    foreach (sort keys %{$used_tags->{$f}}) {
+	    	print TAGFILE $_, "\t", $used_tags->{$f}->{$_}, "\n";
+    	    }
+    	    close (TAGFILE);
     	}
-    	close (TAGFILE);
        
     	if ($lines[2] =~ m/^(\#[-a-z]+ ?){1,}$/) {
 	    $lines[2] =~ s/\n//;
@@ -94,14 +100,17 @@ if ($input) {
     	close (LOGFILE);
     }
 } elsif ($log->opt ('l')) {	# list all used tags, from most to least often used
+    my $f;
+    if ($log->opt ('y')) { $f = "year"; } else { $f = "total"; }
+
     my $tag; my $count;
     format STDOUT = 
 @<<<<<<<<<<<<<<<<<<<< @>>>>
 $tag,            $count
 .
-    foreach (sort {$used_tags->{$b} <=> $used_tags->{$a}} keys %{$used_tags}) { 
+    foreach (sort {$used_tags->{$f}->{$b} <=> $used_tags->{$f}->{$a}} keys %{$used_tags->{$f}}) { 
 	$tag = $_;
-	$count = $used_tags->{$_};
+	$count = $used_tags->{$f}->{$_};
 	write;
     }
 } else {			# just return tags for given date
