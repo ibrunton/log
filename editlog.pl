@@ -38,8 +38,10 @@ if (-e $file) {
 	    my $date = $log->date;
 	    my $cmd = $log->{extension_hook};
 	    my $x = $log->{extension};
+	    my $X = uc($x);
 	    $x =~ s/\.//;
 	    $cmd =~ s/%e/$x/x;
+	    $cmd =~ s/%E/$X/x;
 	    $cmd =~ s/%d/$date/x;
 	    system ($cmd);
     	}
