@@ -6,7 +6,7 @@ use Text::Wrap;
 
 use Log;
 
-my $VERSION = '2.2.10';
+my $VERSION = '2.2.11';
 
 if (! $ARGV[0]) { pod2usage (-exitval => 1, -verbose => 1); }
 
@@ -208,7 +208,7 @@ unless ($log->opt ('q')) {
 exit( 0 );
 
 sub expand {
-    my $snippet = shift;
+    my $snippet = lc(shift);
     my $logref = shift;
     
     my $snippet_file = $logref->snippet_dir . $snippet;
@@ -237,7 +237,7 @@ log - command-line log/journal processing
 
 =head1 VERSION
 
-2.2.10
+2.2.11
 
 =head1 SYNOPSIS
 
