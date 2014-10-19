@@ -17,7 +17,7 @@ my $log = Log->new ();
 $log->parse_rc;
 
 my $input = join (' ', @ARGV);
-$log->getopts ('hly', \$input);
+$log->getopts ('hlry', \$input);
 
 if ($log->opt ('h')) {
     pod2usage (-exitstatus => 0, -verbose => 2);
@@ -64,40 +64,72 @@ if ($input) {
     my @lines = <LOGFILE>;
     close (LOGFILE);
 
-    # check for duplicates:
-    foreach (@newtags) {
-	if ($lines[2] =~ m/$_/) {
-	    my $nt = join (' ', @newtags);
-	    $nt =~ s/$_//;
-	    @newtags = split (/ /, $nt);
+    # removing a tag:
+    if ($log->opt('r')) {
+	foreach my $t (@newtags) {
+	    if ($lines[2] =~ m/$t/) {
+		$lines[2] =~ s/$t\s?//;
+	    }
 	}
-    }
 
-    if ($#newtags >= 0) {	# still new tags left after removing duplicates
-	foreach my $f (keys %files) {
-    	    foreach my $t (@newtags) {
-	    	$used_tags->{$f}->{$t} += 1;
-    	    }
-
-    	    open (TAGFILE, ">", $files{$f}) or die ("Cannot open tag file: $!");
-    	    foreach (sort keys %{$used_tags->{$f}}) {
-	    	print TAGFILE $_, "\t", $used_tags->{$f}->{$_}, "\n";
-    	    }
-    	    close (TAGFILE);
-    	}
-       
-    	if ($lines[2] =~ m/^(\#[-a-z]+ ?){1,}$/) {
-	    $lines[2] =~ s/\n//;
-	    $lines[2] .= ' ' . join (' ', @newtags) . "\n";
-    	} else {
-	    splice (@lines, 2, 0, join (' ', @newtags), "\n\n");
-    	}
+	if ($lines[2] =~ m/^$/) {
+	    splice(@lines, 2, 1);
+	}
 
     	open (LOGFILE, ">", $logfile) or die ("Cannot open log file: $!");
     	foreach (@lines) {
 	    print LOGFILE $_;
     	}
     	close (LOGFILE);
+
+	foreach my $f (keys %files) {
+	    foreach my $t (@newtags) {
+	    	$used_tags->{$f}->{$t} -= 1;
+	    }
+
+	    open(TAGFILE, ">", $files{$f}) or die ("Cannot open tag file: $1");
+	    foreach (sort keys %{$used_tags->{$f}}) {
+		print TAGFILE $_, "\t", $used_tags->{$f}->{$_}, "\n";
+	    }
+	    close(TAGFILE);
+	}
+    }
+    else {
+    	# check for duplicates:
+    	foreach (@newtags) {
+	    if ($lines[2] =~ m/$_/) {
+	    	my $nt = join (' ', @newtags);
+	    	$nt =~ s/$_//;
+	    	@newtags = split (/ /, $nt);
+	    }
+    	}
+
+    	if ($#newtags >= 0) {	# still new tags left after removing duplicates
+	    foreach my $f (keys %files) {
+    	    	foreach my $t (@newtags) {
+	    	    $used_tags->{$f}->{$t} += 1;
+    	    	}
+
+    	    	open (TAGFILE, ">", $files{$f}) or die ("Cannot open tag file: $!");
+    	    	foreach (sort keys %{$used_tags->{$f}}) {
+	    	    print TAGFILE $_, "\t", $used_tags->{$f}->{$_}, "\n";
+    	    	}
+    	    	close (TAGFILE);
+    	    }
+       	   
+    	    if ($lines[2] =~ m/^(\#[-a-z]+ ?){1,}$/) {
+	    	$lines[2] =~ s/\n//;
+	    	$lines[2] .= ' ' . join (' ', @newtags) . "\n";
+    	    } else {
+	    	splice (@lines, 2, 0, join (' ', @newtags), "\n\n");
+    	    }
+
+    	    open (LOGFILE, ">", $logfile) or die ("Cannot open log file: $!");
+    	    foreach (@lines) {
+	    	print LOGFILE $_;
+    	    }
+    	    close (LOGFILE);
+    	}
     }
 } elsif ($log->opt ('l')) {	# list all used tags, from most to least often used
     my $f;
