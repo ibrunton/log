@@ -68,7 +68,9 @@ if ($input) {
     if ($log->opt('r')) {
 	foreach my $t (@newtags) {
 	    if ($lines[2] =~ m/$t/) {
-		$lines[2] =~ s/$t\s?//;
+		$lines[2] =~ s/$t//;
+		$lines[2] =~ s/  / /;
+		$lines[2] =~ s/ $//;
 	    }
 	}
 
@@ -85,6 +87,9 @@ if ($input) {
 	foreach my $f (keys %files) {
 	    foreach my $t (@newtags) {
 	    	$used_tags->{$f}->{$t} -= 1;
+		if ($used_tags->{$f}->{$t} <= 0) {
+		    delete $used_tags->{$f}->{$t};
+		}
 	    }
 
 	    open(TAGFILE, ">", $files{$f}) or die ("Cannot open tag file: $1");
