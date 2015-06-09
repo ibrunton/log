@@ -67,7 +67,7 @@ Parses command-line -options.
 =cut
 sub getopts {
     my $self = shift;
-    my $allowed = shift;
+    my $opts = shift;
     my $string = shift;
     my $tags;
 	
@@ -82,7 +82,13 @@ sub getopts {
 	return $self;
     }
 
-    $allowed .= join ('', keys %{$self->{extensions}});
+    foreach (keys %{$self->{extensions}}) {
+	$opts->{$_} = $);
+    }
+
+    my $allowed = join ('', keys %{$opts});
+
+    #$allowed .= join ('', keys %{$self->{extensions}});
 
     # date differential:
     if ($tags =~ /-(\d+)/) {
@@ -96,7 +102,7 @@ sub getopts {
     for (my $i = 0; $i < length ($tags); $i++) {
 	$t = substr ($tags, $i, 1);
 	if ($t =~ /[$allowed]/) {
-	    $self->set_opt ($t);
+	    $self->set_opt ($opts->{$t});
 	} else {
 	    $self->error ("Unknown command-line option `$t'.");
 	}
@@ -108,10 +114,6 @@ sub getopts {
 sub process_options {
     my $self = shift;
 	
-    if ($self->opt ('m')) {
-	$self->{show_markup} = 0;
-    }
-
     foreach (keys %{$self->{extensions}}) {
 	if ($self->opt ($_)) {
 	    $self->{extension} = '.' . $self->{extensions}->{$_};
@@ -123,11 +125,11 @@ sub process_options {
     if ($self->opt ('J')) {
 	$self->{end_of_line} = "\n\n";
 	$self->{indent_char} = '';
-	$self->set_opt( 't' );
-	$self->set_opt( 'r' );
+	$self->set_opt( 'no_time' );
+	$self->set_opt( 'round_time' );
     }
     
-    if ($self->opt ('q') && $self->opt ('s')) {
+    if ($self->opt ('quiet') && $self->opt ('silent')) {
 	$self->error ("Cannot pass both -q and -s.");
     }
 
@@ -396,7 +398,7 @@ sub set_time {
     my $hour = (localtime)[2];
     my $min = (localtime)[1];
 	
-    if ($self->opt('r') || $self->{auto_round}) {
+    if ($self->opt('round_time') || $self->{auto_round}) {
 	my $mod = $min % 5;
 	if ($mod == 1) {
 	    $min -= 1;
@@ -420,7 +422,7 @@ sub set_time {
 	
     $self->{has_time} = 1;
 	
-    if (($self->opt ('r') || $self->{auto_round}) && $self->{mark_rounded}) {
+    if (($self->opt ('round_time') || $self->{auto_round}) && $self->{mark_rounded}) {
 	$self->{time} .= $self->{rounded_time_char};
     }
 
@@ -520,7 +522,7 @@ sub markup {
 sub get_markup {
     my $self = shift;
     my $tag = lc (shift);
-    if (exists $self->{markup}->{$tag} && $self->{show_markup}) {
+    if (exists $self->{markup}->{$tag} && !$self->opt ('monochrome')) {
     	return $self->{markup}->{$tag};
     }
     return '';
@@ -530,7 +532,7 @@ sub markup_tag {    # deprecated 2013-05-07
     my $self = shift;
     my $tag = lc( shift );
     my $text = shift;
-    if (! exists $self->{markup}->{$tag} || $self->opt ('m')) {
+    if (! exists $self->{markup}->{$tag} || $self->opt ('monochrome')) {
 	return $text;
     }
     return $self->{markup}->{$tag} . $text . $self->end_markup;

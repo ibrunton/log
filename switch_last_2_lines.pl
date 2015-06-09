@@ -13,8 +13,8 @@ my $VERSION = '0.1';
 my $log = Log->new();
 $log->parse_rc;
 my $input = join (' ', @ARGV);
-$log->getopts ('h', \$input);
-if ($log->opt( 'h' )) { pod2usage (-exitstatus => 0, -verbose => 2); }
+$log->getopts ({'h' => 'help'}, \$input);
+if ($log->opt( 'help' )) { pod2usage (-exitstatus => 0, -verbose => 2); }
 $log->parse_datetime (\$input);
 
 my $file = $log->file_path || print "no file path\n";

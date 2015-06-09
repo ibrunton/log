@@ -9,9 +9,15 @@ my $input = join (' ', @ARGV);
 
 my $log = Log->new;
 $log->parse_rc;
-$log->getopts ('ah', \$input);
 
-if ($log->opt ('h')) {
+my $opts = {
+    'a' => 'alternate_editor',
+    'h' => 'help',
+};
+
+$log->getopts ($opts, \$input);
+
+if ($log->opt ('help')) {
     pod2usage (-exitstatus => 0, -verbose => 2);
 }
 
@@ -19,7 +25,7 @@ my $action = $log->{editor} // $ENV{EDITOR} // '/usr/bin/env vim';
 my $alternate = $log->{alternate_editor} // 'emacsclient';
 
 # opt 'a' does something different from other log scripts:
-if ($log->opt ('a')) {
+if ($log->opt ('alternate_editor')) {
     $action = $alternate;
 }
 

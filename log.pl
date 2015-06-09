@@ -16,14 +16,31 @@ $log->parse_rc;
 
 my $input = join (' ', @ARGV);
 
-$log->getopts ('abchijmnpqrstw', \$input);
+my $opts = {
+    'a' => 'no_newline',
+    'b' => 'prepend_blank_line',
+    'c' => 'comment',
+    'h' => 'help',
+    'i' => 'indent',
+    'j' => 'null',
+    'm' => 'monochrome',
+    'n' => 'append_time',
+    'p' => 'predict_time',
+    'q' => 'quiet',
+    'r' => 'round_time',
+    's' => 'simulate',
+    't' => 'no_time',
+    'w' => 'no_wrap',
+};
+
+$log->getopts ($opts, \$input);
 
 my $silent = '';
-if ($log->opt ('s')) {
+if ($log->opt ('silent')) {
     $silent = "-s";
 }
 
-if ($log->opt ('h')) { pod2usage (-exitstatus => 0, -verbose => 2); }
+if ($log->opt ('help')) { pod2usage (-exitstatus => 0, -verbose => 2); }
 
 $Text::Wrap::columns = $log->line_length;
 
@@ -45,8 +62,8 @@ if ($input eq '-') {
 }
 
 my $cc = $log->comment_char;
-if ($log->opt ('c')) {
-    $log->set_opt ('t');
+if ($log->opt ('comment')) {
+    $log->set_opt ('no_time');
     $comment = $cc . $log->indent_char . $input;
     $output = '';
 }
@@ -61,7 +78,7 @@ else {
     else { $output = $input; }
 }
 
-if ($log->opt ('a')) {
+if ($log->opt ('no_newline')) {
     $log->{end_of_line} = '';
     #$log->set_state ('no-newline');
 }
@@ -103,29 +120,29 @@ if ($output =~ m| -s([/#]).+?\1.*?\1|) {
 }
 
 # add time...
-if ($log->opt ('n')) {
-    $log->set_opt ('t');
+if ($log->opt ('append_time')) {
+    $log->set_opt ('no_time');
     $output .= ' to ' . $log->time;
     if ($output && $comment) {
 	$output .= ' ';
     }
 }
-if ($log->opt ('i')) {
-    $log->set_opt ('t');
+if ($log->opt ('indent')) {
+    $log->set_opt ('no_time');
     $output = "\t" . $output;
 }
 
-unless ($log->opt ('t')) {
+unless ($log->opt ('no_time')) {
     $output = $log->time . ":\t" . $output;
 }
 
-if ($log->opt ('p')) {
+if ($log->opt ('predict')) {
     $output = $log->predictor_char . $output;
 }
 
 # wrap...
-unless ($log->opt ('w')) {
-    unless ($log->opt ('c')) {
+unless ($log->opt ('no_wrap')) {
+    unless ($log->opt ('comment')) {
 	$output = wrap ("", $log->indent_char, $output);
     }
 
@@ -165,10 +182,10 @@ if ($log->is_new) {
 
 # prepend blank line:
 # (kind of cludgy)
-if ($log->opt('b')) {
+if ($log->opt('prepend_blank_line')) {
     if ($input eq '') { # if no other input, just insert a single blank line
 	$log->{end_of_line} = '';
-	$log->set_opt ('t');
+	$log->set_opt ('no_time');
 	$output = "\n";
     }
     else { # blank line plus additional input
@@ -200,7 +217,7 @@ close (FILE);
 }
 
 # parse markup with colour codes and print to terminal:
-unless ($log->opt ('q')) {
+unless ($log->opt ('quiet')) {
     $log->markup (\$output_line);
     print $output_line;
 }

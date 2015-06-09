@@ -13,9 +13,16 @@ my $input = join (' ', @ARGV);
 
 $log->parse_rc;
 
-$log->getopts ('dfhm', \$input);
+my $opts = {
+    'd' => 'directory',
+    'f' => 'file_path',
+    'h' => 'help',
+    'm' => 'monochrome',
+};
 
-if ($log->opt ('h')) {
+$log->getopts ($opts, \$input);
+
+if ($log->opt ('help')) {
     pod2usage (-exitstatus => 0, -verbose => 2);
 }
 
@@ -23,13 +30,13 @@ $log->parse_datetime (\$input); # pass by reference so method can modify $input
 
 my $file_path = $log->file_path;
 
-if (! -e $file_path && ! $log->opt ('f')) {
+if (! -e $file_path && ! $log->opt ('file_path')) {
     print "File $file_path does not exist.\n\n";
     exit (0);
 }
 
-if ($log->opt ('f')) {
-    if ($log->opt ('d')) {
+if ($log->opt ('file_path')) {
+    if ($log->opt ('directory')) {
 	print $log->{dir_path};
 	exit 0;
     } else {

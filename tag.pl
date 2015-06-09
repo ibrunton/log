@@ -17,16 +17,24 @@ my $log = Log->new ();
 $log->parse_rc;
 
 my $input = join (' ', @ARGV);
-$log->getopts ('hlry', \$input);
 
-if ($log->opt ('h')) {
+my $opts = {
+    'h' => 'help',
+    'l' => 'list',
+    'r' => 'remove',
+    'y' => 'year',
+};
+
+$log->getopts ($opts, \$input);
+
+if ($log->opt ('help')) {
     pod2usage (-exitstatus => 0, -verbose => 2);
 }
 
 # because I often miss the - when intending -l
 if ($input =~ /(\bl\b)/) {
     $input =~ s/$1//;
-    $log->set_opt ('l');
+    $log->set_opt ('list');
 }
 
 $log->parse_datetime (\$input);
@@ -65,7 +73,7 @@ if ($input) {
     close (LOGFILE);
 
     # removing a tag:
-    if ($log->opt('r')) {
+    if ($log->opt('remove')) {
 	foreach my $t (@newtags) {
 	    if ($lines[2] =~ m/$t/) {
 		$lines[2] =~ s/$t//;
@@ -136,9 +144,9 @@ if ($input) {
     	    close (LOGFILE);
     	}
     }
-} elsif ($log->opt ('l')) {	# list all used tags, from most to least often used
+} elsif ($log->opt ('list')) {	# list all used tags, from most to least often used
     my $f;
-    if ($log->opt ('y')) { $f = "year"; } else { $f = "total"; }
+    if ($log->opt ('year')) { $f = "year"; } else { $f = "total"; }
 
     my $tag; my $count;
     format STDOUT = 
