@@ -607,7 +607,7 @@ Report Log bugs to ibrunton@accesswave.ca
 
 =head1 COPYRIGHT
 
-Copyright 2011, 2012 Ian Brunton.
+Copyright 2011--2015 Ian D. Brunton.
 
 This file is part of Log.
 

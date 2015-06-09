@@ -8,9 +8,7 @@ use Modern::Perl;
 use Pod::Usage;
 use Log;
 
-my $VERSION = '1.0.2';
-
-#if (! $ARGV[0]) { pod2usage (-exitval => 1, -verbose => 1); }
+my $VERSION = '1.1';
 
 my $log = Log->new ();
 
@@ -174,3 +172,72 @@ $tag,            $count
 	say "No tags"
     }
 }
+
+__END__
+
+=head1 NAME
+
+tag.pl - for hashtagging journal files
+
+=head1 VERSION
+
+1.1
+
+=head1 SYNOPSIS
+
+tag.pl [OPTIONS] [YYYY/MM/DD] [-INT] [TAG]
+
+=head1 DESCRIPTION
+
+tag.pl allows for simple hashtagging of journal files produced by log.pl.
+
+=head2 DATES, DIFFERENTIALS
+
+See documentation for log.pl
+
+=head1 OPTIONS
+
+=over 8
+
+=item B<-l>
+
+Lists existing tags.
+
+=item B<-y>
+
+When combined with B<-l>, lists only tags used in the current calendar year.
+
+=item B<-r>
+
+Remove the tags listed.
+
+=back
+
+=head1 AUTHOR
+
+Written by Ian D. Brunton
+
+=head1 REPORTING BUGS
+
+Report bugs to iandbrunton at gmail.com
+
+=head1 COPYRIGHT
+
+Copyright 2011--2015 Ian D. Brunton.
+
+This file is part of Log.
+
+Log is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Log is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Log.  If not, see <http://www.gnu.org/licenses/>.
+
+=cut

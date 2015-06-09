@@ -6,7 +6,7 @@ use Text::Wrap;
 
 use Log;
 
-my $VERSION = '2.2.11';
+my $VERSION = '2.3';
 
 if (! $ARGV[0]) { pod2usage (-exitval => 1, -verbose => 1); }
 
@@ -254,7 +254,7 @@ log - command-line log/journal processing
 
 =head1 VERSION
 
-2.2.11
+2.3
 
 =head1 SYNOPSIS
 
@@ -537,7 +537,7 @@ Report Log bugs to iandbrunton at gmail.com
 
 =head1 COPYRIGHT
 
-Copyright 2011-2014 Ian Brunton.
+Copyright 2011--2015 Ian D. Brunton.
 
 This file is part of Log.
 

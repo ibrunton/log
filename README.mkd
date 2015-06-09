@@ -1,0 +1,72 @@
+# log
+
+This collection of scripts is designed to allow for the keeping of flat-file
+journals/logs, with date and time information.
+
+## Files
+
+* log.pl - adds entries to the file
+* clog.pl - outputs the file to the terminal
+* editlog.pl - opens the file in your editor
+* switch_last_2_lines.pl - does exactly what the name says
+* tag.pl - manages hashtags for log files
+* Log.pm - the class containing variables and options, used by all the scripts
+* IDB.pm - a couple of helper functions
+
+## Requirements
+
+* Perl 5 or 6
+* Modern::Perl module
+* Date::Calc module
+* Pod::Usage module
+* Text::Wrap module
+
+## Installation
+
+Place the script (.pl) files in a directory in your $PATH, and copy the library
+(.pm) files in your system perl library directory, or use the included Makefile
+by running
+
+    sudo make install
+
+## Data
+
+Files are stored the directory you specify in the config file, in
+subdirectories following the pattern YYYY/MM/DD.  These directories are created
+automatically as needed.
+
+Each entry begins with the time in HH:MM format, though there are options to
+turn this off for each entry.
+
+To allow for more fine-grained entries, the config file can specify additional
+file extensions, so you can have multiple files in the same directory for any
+given date.
+
+For further information, see the documentation in log.pl by running
+
+    log.pl -h
+
+## Author
+
+Written by Ian D. Brunton
+
+## Reporting Bugs
+
+Report bugs to iandbrunton at gmail.com
+
+## Copyright
+
+Copyright 2011--2015 Ian D. Brunton.
+
+Log is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Log is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Log.  If not, see [http://www.gnu.org/licenses/](http://www.gnu.org/licenses/).

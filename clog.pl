@@ -5,7 +5,7 @@ use Pod::Usage;
 
 use Log;
 
-my $VERSION = '2.0';
+my $VERSION = '2.1';
 
 my $log = Log->new();
 
@@ -61,13 +61,11 @@ clog - command-line log/journal printing
 
 =head1 VERSION
 
-2.0
+2.1
 
 =head1 SYNOPSIS
 
- clog [OPTIONS] [YYYY/MM/DD] [diff]
- clog 10/03
- clog -J 06 n1
+clog [OPTIONS] [YYYY/MM/DD] [DIFFERENTIAL]
 
 =head1 DESCRIPTION
 
@@ -112,7 +110,7 @@ Report Log bugs to iandbrunton at gmail. com.
 
 =head1 COPYRIGHT
 
-Copyright 2011--13 Ian D. Brunton.
+Copyright 2011--15 Ian D. Brunton.
 
 This file is part of Log.
 

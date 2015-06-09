@@ -5,6 +5,8 @@ use Pod::Usage;
 
 use Log;
 
+my $VERSION = '2.2'
+
 my $input = join (' ', @ARGV);
 
 my $log = Log->new;
@@ -67,13 +69,11 @@ editlog - command-line log/journal editing
 
 =head1 VERSION
 
-2.1
+2.2
 
 =head1 SYNOPSIS
 
- editlog [-a] [YYYY/MM/DD] [diff]
- editlog 10/03
- editlog -J 06 -1
+editlog [OPTIONS] [YYYY/MM/DD] [DIFFERENTIAL]
 
 =head1 DESCRIPTION
 
@@ -108,7 +108,7 @@ Report Log bugs to iandbrunton at gmail. com.
 
 =head1 COPYRIGHT
 
-Copyright 2011--13 Ian D. Brunton.
+Copyright 2011--15 Ian D. Brunton.
 
 This file is part of Log.
 
