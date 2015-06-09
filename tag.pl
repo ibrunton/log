@@ -69,7 +69,7 @@ if ($input) {
 	foreach my $t (@newtags) {
 	    if ($lines[2] =~ m/$t/) {
 		$lines[2] =~ s/$t//;
-		$lines[2] =~ s/  / /;
+		$lines[2] =~ s/  / /g;
 		$lines[2] =~ s/ $//;
 	    }
 	}
