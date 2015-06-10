@@ -83,7 +83,7 @@ sub getopts {
     }
 
     foreach (keys %{$self->{extensions}}) {
-	$opts->{$_} = $);
+	$opts->{$_} = $_;
     }
 
     my $allowed = join ('', keys %{$opts});
