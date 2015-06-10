@@ -5,7 +5,7 @@ use Pod::Usage;
 
 use Log;
 
-my $VERSION = '2.2'
+my $VERSION = '2.2';
 
 my $input = join (' ', @ARGV);
 
