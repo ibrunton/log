@@ -391,7 +391,7 @@ According to set options, sets the time for the current entry.
 sub set_time {
     my $self = shift;
 	
-    if ($self->{has_time} && ! $self->opt ('n')) {
+    if ($self->{has_time} && ! $self->opt ('append_time')) {
 	return $self;
     }				# so as not to overwrite
 	

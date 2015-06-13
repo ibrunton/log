@@ -28,17 +28,13 @@ my $opts = {
     'p' => 'predict_time',
     'q' => 'quiet',
     'r' => 'round_time',
-    's' => 'simulate',
+    's' => 'no_write',
     't' => 'no_time',
     'w' => 'no_wrap',
 };
 
 $log->getopts ($opts, \$input);
 
-my $silent = '';
-if ($log->opt ('silent')) {
-    $silent = "-s";
-}
 
 if ($log->opt ('help')) { pod2usage (-exitstatus => 0, -verbose => 2); }
 
@@ -193,27 +189,26 @@ if ($log->opt('prepend_blank_line')) {
     }
 }
 
-my $date = $log->date;
-
-if ($log->{extension} ne '') {
-    if ($log->is_new && $log->{extension_hook}) {
-	my $cmd = $log->{extension_hook};
-	my $x = $log->{extension};
-	my $X = uc($x);
-	$x =~ s/\.//;
-	$cmd =~ s/%e/$x/x;
-	$cmd =~ s/%E/$X/x;
-	$cmd =~ s/%d/$date/x;
-	system ($cmd);
-    }
-}
-
 my $file = $log->file_path;
 my $output_line = $output . $comment . $log->end_of_line;
-unless ($silent) {
+unless ($log->opt( 'no_write')) {
+    my $date = $log->date;
+    if ($log->{extension} ne '') {
+    	if ($log->is_new && $log->{extension_hook}) {
+	    my $cmd = $log->{extension_hook};
+	    my $x = $log->{extension};
+	    my $X = uc($x);
+	    $x =~ s/\.//;
+	    $cmd =~ s/%e/$x/x;
+	    $cmd =~ s/%E/$X/x;
+	    $cmd =~ s/%d/$date/x;
+	    system ($cmd);
+    	}
+    }
+
     open (FILE, ">>", $file) or die ("Can't open file " . $file . ": $!");
     print FILE $output_line or die ("didn't print: $!");
-close (FILE);
+    close (FILE);
 }
 
 # parse markup with colour codes and print to terminal:
