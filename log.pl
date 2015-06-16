@@ -132,7 +132,7 @@ unless ($log->opt ('no_time')) {
     $output = $log->time . ":\t" . $output;
 }
 
-if ($log->opt ('predict')) {
+if ($log->opt ('predict_time')) {
     $output = $log->predictor_char . $output;
 }
 

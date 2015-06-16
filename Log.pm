@@ -409,7 +409,7 @@ sub set_time {
 	} elsif ($mod == 4) {
 	    $min += 1;
 	} else {
-	    $self->unset_opt ('r');
+	    $self->unset_opt ('round_time');
 	}
 
 	if ($min == 60) {
