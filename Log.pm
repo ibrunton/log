@@ -120,15 +120,6 @@ sub process_options {
 	}
     }
 	
-    # This is an ad hoc hack to make .journal files behave in a specific way.
-    # It would be preferable to be able to write this as a hook in the config file
-    if ($self->opt ('J')) {
-	$self->{end_of_line} = "\n\n";
-	$self->{indent_char} = '';
-	$self->set_opt( 'no_time' );
-	$self->set_opt( 'round_time' );
-    }
-    
     if ($self->opt ('quiet') && $self->opt ('silent')) {
 	$self->error ("Cannot pass both -q and -s.");
     }

@@ -20,6 +20,7 @@ my $opts = {
     'a' => 'no_newline',
     'b' => 'prepend_blank_line',
     'c' => 'comment',
+    'f' => 'flush',
     'h' => 'help',
     'i' => 'indent',
     'j' => 'null',
@@ -35,10 +36,13 @@ my $opts = {
 
 $log->getopts ($opts, \$input);
 
-
 if ($log->opt ('help')) { pod2usage (-exitstatus => 0, -verbose => 2); }
 
 $Text::Wrap::columns = $log->line_length;
+
+if ($log->opt ('flush')) {
+    $log->{indent_char} = '';
+}
 
 $log->parse_datetime (\$input); # pass by reference so method can modify $input
 
