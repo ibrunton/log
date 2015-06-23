@@ -177,7 +177,7 @@ unless ($log->opt ('no_wrap')) {
 
 if ($log->is_new) {
     $output = $log->date_string . "\n\n" . $output;
-    $log->unset_opt ('b');
+    $log->unset_opt ('prepend_blank_line');
 }
 
 # prepend blank line:
