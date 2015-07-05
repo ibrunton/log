@@ -294,8 +294,6 @@ sub parse_datetime {
 	$self->{time} = $1;
 	$self->{has_time} = 1;
 	$self->set_opt( 'no_time' );
-    } elsif ($$string =~ s/^(\w{1,6}:)\s+/$1\t/o) {
-    	$self->set_opt( 'no_time' );
     }
 	
     $self->get_date;
