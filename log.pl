@@ -132,7 +132,12 @@ if ($log->opt ('indent')) {
     $output = "\t" . $output;
 }
 
-unless ($log->opt ('no_time')) {
+if ($log->opt ('no_time')) {
+    if (!$log->opt ('has_time')) {    # text-only prefix with colon
+	$output =~ s/^(\w{1,6}:)\s+/$1\t/o;
+    }
+}
+else {
     $output = $log->time . ":\t" . $output;
 }
 
