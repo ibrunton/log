@@ -31,6 +31,7 @@ my $opts = {
     'r' => 'round_time',
     's' => 'no_write',
     't' => 'no_time',
+    'u' => 'unknown',
     'w' => 'no_wrap',
 };
 
@@ -136,6 +137,9 @@ if ($log->opt ('no_time')) {
     if (!$log->opt ('has_time')) {    # text-only prefix with colon
 	$output =~ s/^(\w{1,6}:)\s+/$1\t/o;
     }
+}
+elsif ($log->opt ('unknown')) {
+    $output = "?:\t" . $output;
 }
 else {
     $output = $log->time . ":\t" . $output;
