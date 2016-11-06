@@ -6,7 +6,7 @@ use Text::Wrap;
 
 use Log;
 
-my $VERSION = '2.4';
+my $VERSION = '2.4.1';
 
 if (! $ARGV[0]) { pod2usage (-exitval => 1, -verbose => 1); }
 
@@ -238,11 +238,17 @@ sub expand {
     
     my $snippet_file = $logref->snippet_dir . $snippet;
     if (! -e $snippet_file) {
-	print "Snippet `$snippet' does not exist.\nWould you like to create it? (y/n) ";
+	print "Snippet `$snippet' does not exist.\nWould you like to create it? (yes/no/other snippet) ";
 	my $input = <STDIN>;
 	chomp $input;
 	if ($input =~ m/^[Yy]/) {
 	    system ($logref->{editor} . " " . $snippet_file);
+	}
+	elsif ($input =~ m/^[Oo]/) {
+	    print "Use snippet: ";
+	    $snippet = <STDIN>;
+	    chomp $snippet;
+	    $snippet_file = $logref->snippet_dir . $snippet;
 	}
 	else {
 	    return $snippet;
@@ -272,7 +278,7 @@ log - command-line log/journal processing
 
 =head1 VERSION
 
-2.4
+2.4.1
 
 =head1 SYNOPSIS
 
