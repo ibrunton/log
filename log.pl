@@ -561,7 +561,7 @@ Report Log bugs to iandbrunton at gmail.com
 
 =head1 COPYRIGHT
 
-Copyright 2011--2015 Ian D. Brunton.
+Copyright 2011--2016 Ian D. Brunton.
 
 This file is part of Log.
 

@@ -18,8 +18,10 @@ journals/logs, with date and time information.
 * Perl 5 or 6
 * Modern::Perl module
 * Date::Calc module
+* Time::Local module
 * Pod::Usage module
 * Text::Wrap module
+* Glib module
 
 ## Installation
 
@@ -56,7 +58,7 @@ Report bugs to iandbrunton at gmail.com
 
 ## Copyright
 
-Copyright 2011--2015 Ian D. Brunton.
+Copyright 2011--2016 Ian D. Brunton.
 
 Log is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
