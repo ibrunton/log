@@ -282,13 +282,6 @@ sub parse_datetime {
 	$$string =~ s/$1 *//o;
 	$self->{has_date} = 1;
     }
-    # date differential:	### DEPRECATED 2012-10-25 ###
-    if ($$string =~ m|\b(n\d+?)\b|) {
-	$self->{date_diff} = $1;
-	$$string =~ s/$1 *//o;
-	$self->{date_diff} =~ s/\D//g;
-	$self->{has_diff} = 1;
-    }
     # time:
     if ($$string =~ s/^(\[?\d{4}[~?]?):? */$1:\t/o) {
 	$self->{time} = $1;
