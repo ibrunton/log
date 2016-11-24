@@ -522,22 +522,45 @@ sub markup_tag {    # deprecated 2013-05-07
 
 sub end_markup {
     my $self = shift;
-    return $self->{markup}->{end};
+    if ($self->opt ('monochrome')) {
+	return '';
+    }
+    else {
+    	return $self->{markup}->{end};
+    }
 }
 
 sub date_markup {
     my $self = shift;
-    return $self->get_markup ('date') . shift() . $self->end_markup;
+    my $text = shift;
+    if ($self->opt ('monochrome')) {
+	return $text;
+    }
+    else {
+    	return $self->get_markup ('date') . $text . $self->end_markup;
+    }
 }
 
 sub comment_markup {
     my $self = shift;
-    return $self->get_markup ('comment') . shift() . $self->end_markup;
+    my $text = shift;
+    if ($self->opt ('monochrome')) {
+	return $text;
+    }
+    else {
+    	return $self->get_markup ('comment') . $text . $self->end_markup;
+    }
 }
 
 sub underline {
     my $self = shift;
-    return $self->{underline_start} . shift () . $self->{underline_end};
+    my $text = shift;
+    if ($self->opt ('monochrome')) {
+	return '';
+    }
+    else {
+    	return $self->{underline_start} . $text . $self->{underline_end};
+    }
 }
 
 sub expand_snippets {

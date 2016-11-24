@@ -43,6 +43,9 @@ $Text::Wrap::columns = $log->line_length;
 
 if ($log->opt ('flush')) {
     $log->{indent_char} = '';
+    if ($log->opt ('comment')) {
+	$log->{indent_char} = ' ';
+    }
 }
 
 $log->parse_datetime (\$input); # pass by reference so method can modify $input
