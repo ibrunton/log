@@ -214,7 +214,9 @@ unless ($log->opt( 'no_write')) {
 	    my $cmd = $log->{extension_hook};
 	    my $x = $log->{extension};
 	    my $X = uc($x);
+	    my $xx = $log->{extension_};
 	    $x =~ s/\.//;
+	    $cmd =~ s/%x/$xx/x;
 	    $cmd =~ s/%e/$x/x;
 	    $cmd =~ s/%E/$X/x;
 	    $cmd =~ s/%d/$date/x;

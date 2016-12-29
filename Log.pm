@@ -117,6 +117,7 @@ sub process_options {
     foreach (keys %{$self->{extensions}}) {
 	if ($self->opt ($_)) {
 	    $self->{extension} = '.' . $self->{extensions}->{$_};
+	    $self->{extension_} = $_;
 	}
     }
 	
