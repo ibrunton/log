@@ -17,6 +17,14 @@ my $log = Log->new();
 
 $log->parse_rc;
 
+my $pattern = '#+MARK';
+
+if ($ARGV[0] =~ m/^\+\w+/) {
+    $pattern .= shift (@ARGV);
+}
+$pattern =~ s/\#/\\\#/g;
+$pattern =~ s/\+/\\\+/g;
+
 my $input = join (' ', @ARGV);
 my $cmd = $ENV{HOME} . '/bin/llg';
 my $flags = ' -a -f -m -s ';
@@ -38,7 +46,7 @@ close (FILE);
 
 my $found = 0;
 foreach (@lines) {
-    $found = $_ =~ s/#\+MARK/$new/;
+    $found = $_ =~ s/$pattern/$new/;
     last if ($found == 1);
 }
 
