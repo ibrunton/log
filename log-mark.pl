@@ -46,7 +46,7 @@ close (FILE);
 
 my $found = 0;
 foreach (@lines) {
-    $found = $_ =~ s/$pattern/$new/;
+    $found = $_ =~ s/$pattern(?!\+)/$new/;
     last if ($found == 1);
 }
 
