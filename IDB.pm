@@ -16,4 +16,18 @@ sub year {
     return $int + 1900;
 }
 
+sub wkday {
+    # Returns the abbreviated weekday.
+    my $int = shift;
+    my @days = ('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat');
+    return $days[$int];
+}
+
+sub weekday {
+    # Returns the full weekday.
+    my $int = shift;
+    my @days = ('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
+    return $days[$int];
+}
+
 1;
