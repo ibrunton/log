@@ -30,4 +30,37 @@ sub weekday {
     return $days[$int];
 }
 
+sub mon {
+    # Returns the abbreviated month name
+    my $int = shift;
+    my @months = ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',
+	'Oct', 'Nov', 'Dec');
+    return $months[$int];
+}
+
+sub month {
+    # Returns the full month name
+    my $int = shift;
+    my @months = ('January', 'February', 'March', 'April', 'May', 'June', 'July',
+	'August', 'September', 'October', 'November', 'December');
+    return $months[$int];
+}
+
+sub filedate {
+    # Returns a date string suitable for filenames.
+    # Optional arg is the char to join numbers.  Default is `-'.
+    my $j = '-';
+    if (@_) { $j = shift; }
+    return join ($j, $IDB::year ((localtime(time))[5]),
+	&IDB::double_digit ((localtime(time))[4]),
+	&IDB::double_digit ((localtime(time))[3]));
+}
+
+sub nicedate {
+    my $s = &IDB::weekday . ', ';
+    $s .= &IDB::double_digit ((localtime(time))[3]) . ' ';
+    $s .= &IDB::month ((localtime(time))[4]) . ', ';
+    $s .= &IDB::year ((localtime(time))[5]);
+}
+
 1;
