@@ -51,7 +51,7 @@ sub filedate {
     # Optional arg is the char to join numbers.  Default is `-'.
     my $j = '-';
     if (@_) { $j = shift; }
-    return join ($j, $IDB::year ((localtime(time))[5]),
+    return join ($j, &IDB::year ((localtime(time))[5]),
 	&IDB::double_digit ((localtime(time))[4]),
 	&IDB::double_digit ((localtime(time))[3]));
 }

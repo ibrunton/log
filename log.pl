@@ -136,16 +136,22 @@ if ($log->opt ('indent')) {
     $output = "\t" . $output;
 }
 
-if ($log->opt ('no_time')) {
+if ($log->opt ('no_time')) { # i.e., do not add time
     if (!$log->opt ('has_time')) {    # text-only prefix with colon
 	$output =~ s/^(\w{1,6}:)\s+/$1\t/o;
     }
 }
-elsif ($log->opt ('unknown')) {
-    $output = "?:\t" . $output;
-}
 else {
     $output = $log->time . ":\t" . $output;
+}
+
+if ($log->opt ('unknown')) {
+    if ($output =~ m/^(\[?\d{4})/) {
+       	$output =~ s/^(\[?\d{4})/$1\?/;
+    }
+    else {
+    	$output = "?:\t" . $output;
+    }
 }
 
 if ($log->opt ('predict_time')) {
