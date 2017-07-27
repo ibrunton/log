@@ -146,7 +146,7 @@ else {
 }
 
 if ($log->opt ('unknown')) {
-    if ($output =~ m/^(\[?\d{4})/) {
+    if ($output =~ m/^(\[?\d{4})/) { # if it begins with 4 digits
        	$output =~ s/^(\[?\d{4})/$1\?/;
     }
     else {
