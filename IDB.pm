@@ -52,7 +52,7 @@ sub filedate {
     my $j = '-';
     if (@_) { $j = shift; }
     return join ($j, &IDB::year ((localtime(time))[5]),
-	&IDB::double_digit ((localtime(time))[4]),
+	&IDB::double_digit ((localtime(time))[4] + 1),
 	&IDB::double_digit ((localtime(time))[3]));
 }
 
