@@ -61,6 +61,16 @@ sub nicedate {
     $s .= &IDB::double_digit ((localtime(time))[3]) . ' ';
     $s .= &IDB::month ((localtime(time))[4]) . ', ';
     $s .= &IDB::year ((localtime(time))[5]);
+
+    return $s;
+}
+
+sub shortdate {
+    my $s = &IDB::double_digit ((localtime(time))[3]) . ' ';
+    $s .=   &IDB::mon ((localtime(time))[4]) . ' ';
+    $s .=   &IDB::year ((localtime(time))[5]);
+
+    return $s;
 }
 
 1;
