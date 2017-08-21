@@ -25,14 +25,14 @@ sub wkday {
 
 sub weekday {
     # Returns the full weekday.
-    my $int = shift;
+    my $int = shift // (localtime(time))[6];
     my @days = ('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
     return $days[$int];
 }
 
 sub mon {
     # Returns the abbreviated month name
-    my $int = shift;
+    my $int = shift // (localtime(time))[6];
     my @months = ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',
 	'Oct', 'Nov', 'Dec');
     return $months[$int];
@@ -59,7 +59,7 @@ sub filedate {
 sub nicedate {
     my $s = &IDB::weekday . ', ';
     $s .= &IDB::double_digit ((localtime(time))[3]) . ' ';
-    $s .= &IDB::month ((localtime(time))[4] + 1) . ', ';
+    $s .= &IDB::month ((localtime(time))[4]) . ', ';
     $s .= &IDB::year ((localtime(time))[5]);
 
     return $s;
