@@ -557,7 +557,7 @@ sub underline {
     my $self = shift;
     my $text = shift;
     if ($self->opt ('monochrome')) {
-	return '';
+	return $text;
     }
     else {
     	return $self->{underline_start} . $text . $self->{underline_end};
