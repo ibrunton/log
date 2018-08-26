@@ -93,7 +93,7 @@ while ($output =~ m/(?<!\w):([\/\w]+)/) {
 }
 
 # execute shell commands from within snippets:
-if ($output =~ m/`(.+?)`/) {
+while ($output =~ m/`(.+?)`/) {
     my $cmd = $1;
     my $cmdinput = `$cmd`;
     $cmdinput =~ s/\n$//;
@@ -273,7 +273,7 @@ sub expand {
 	$str =~ s/\n$//so; # chop \n off the end
 	
 	my $ic = $logref->indent_char;
-	if ($str =~ s/#BR#/\n$ic/g) {
+	if ($str =~ s/ ?#BR# ?/\n/g) {
 	    $logref->set_opt('w');
 	}
 	
