@@ -7,3 +7,14 @@
 use Modern::Perl;
 use Pod::Usage;
 use Log;
+
+my $VERSION = '0.1a';
+
+if (! $ARGV[0]) { pod2usage (-exitval => 1, -verbose => 1); }
+
+my $log = Log->new ();
+
+$log->parse_rc;
+
+my $opts = {
+};
