@@ -129,7 +129,7 @@ if ($input) {
     	    	close (TAGFILE);
     	    }
        	   
-    	    if ($lines[2] =~ m/^(\#[-a-z]+ ?){1,}$/) {
+    	    if ($lines[2] =~ m/^(\#[-a-z0-9]+ ?){1,}$/) {
 	    	$lines[2] =~ s/\n//;
 	    	$lines[2] .= ' ' . join (' ', @newtags) . "\n";
     	    } else {
