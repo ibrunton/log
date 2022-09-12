@@ -271,6 +271,9 @@ sub expand {
 	close (SNIPPET);
 	my $str = join ("", @file_contents);
 	$str =~ s/\n$//so; # chop \n off the end
+
+	my $temp_time = $logref->time;
+	$str =~ s/%TIME/$temp_time/;
 	
 	my $ic = $logref->indent_char;
 	if ($str =~ s/ ?#BR# ?/\n/g) {
