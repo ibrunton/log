@@ -18,6 +18,7 @@ my $opts = {
     'f' => 'file_path',
     'h' => 'help',
     'm' => 'monochrome',
+    'r' => 'raw_text',
 };
 
 $log->getopts ($opts, \$input);
@@ -46,7 +47,9 @@ if ($log->opt ('file_path')) {
 
 open (FILE, "<", $file_path) or die ("Can't open file $file_path: $!");
 while (my $file_line = <FILE>) {
-    $log->markup (\$file_line);
+    if (!$log->opt ('raw_text')) {
+    	$log->markup (\$file_line);
+    }
     print $file_line;
 }
 close (FILE);
