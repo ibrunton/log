@@ -167,7 +167,7 @@ $tag,            $count
 	print $log->date_markup ($lines[0]);
     }
 		
-    if ($lines[2] =~ m/^(\#[-a-z1-9]+ ?){1,}$/) {
+    if ($lines[2] =~ m/^(\#[-a-z0-9]+ ?){1,}$/) {
 	print $log->comment_markup ($lines[2]);
     } else {
 	say "No tags"
