@@ -132,6 +132,7 @@ if ($input) {
     	    if ($lines[2] =~ m/^(\#[-a-z0-9]+ ?){1,}$/) {
 	    	$lines[2] =~ s/\n//;
 	    	$lines[2] .= ' ' . join (' ', @newtags) . "\n";
+		$lines[2] =~ s/  / /g;
     	    } else {
 	    	splice (@lines, 2, 0, join (' ', @newtags), "\n\n");
     	    }
